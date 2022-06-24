@@ -1,22 +1,17 @@
 TODO
 
-najprv hodit na github
-robit refactoring
-potom github push ze pred a po refactoringu
-
-  - store prerobit nech je krajsi do viac suborov
-  - zjednotit volania niekde volam kvazi a ukladam surveys cez computed a store a niekde volam action a na 2krat akoby davam then proste skusit zjednotit kod
-  - vyhodit picoviny z html sablon typu zbytovne autocomplete a ine srandy
-  - zmenit dost kod nech mi je viac jasny v createEditSurvey a QuestionEditorCompoentn
-  - skusit refactornut aj backend typu usera pouzivat cez resources(to vratenie api), proste vsade skusit pouzivat tie resources ale aj tie validacie requests
-  - v laraveli mat pre usera aj pre surveys a answers spravene factories spravene a pripravene pekne
-  - v laraveli mat seederi pripravene
-  - v laraveli riadne porozmyslat co potrebujem u usera survey answers etc v migrations a spravit/doplnit nech sa k tomu yz nevraciam
-
-
-  - opravit tahane data z DB na dashboarde
   - po refactoringu pridat alert nejaky externy z package
   - do Surveys (vsetky surveys) pridat kazdemu tlacidla na edit a vyplnit to edit zobrazit len ak je autor aj prihlaseny uzivatel
   - porozmyslat nad tym ako spravit to ze user kt. je prihlaseny nesmie vyplnovat svoj survey ak sa to nebude dat spravit cez middleware ze si vlastny vytvorim tak jebat nato
   - vytvorit edit surveyu napojit to na to createEditSurvey akoby je to predpripravene
   - vytvorit profil podstranku tak ako som si to navrhnul
+
+
+
+
+
+  - vytvorit podstranku najlepsieho skore uzivatelov
+  - napojit na moje surveys aj surveys z tej externej api taky pekny bonus
+  - MOZNO vytvorit historiu vytvorenych surveys ako tabulku a kazdy jeden mozes oznacit emotikonom nejakym napr
+  - MOZNO vytvorit followanie uzivatelov a ked niekto niekoho followne tak bude dostavat notifikacie ked vytvori,vyplni novy survey tym
+  - MOZNO ak bude to follovanie tak dalsi level bude akoby otvorenie si danych vyplnenych surveys

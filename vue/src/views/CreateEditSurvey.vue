@@ -110,7 +110,6 @@
             Questions
 
             <!-- Add new question -->
-            <!-- do btnu dole @click="addQuestion()" -->
             <button
               type="button"
               @click="addQuestion()"
@@ -152,7 +151,6 @@
       </div>
     </form>
     </ContentComponent>
-    <pre>{{ model }}</pre>
   </div>
 </template>
 
@@ -161,15 +159,17 @@
 import HeaderComponent from '../components/PageLayout/HeaderComponent.vue';
 import ContentComponent from '../components/PageLayout/ContentComponent.vue';
 import LoadingElement from '../components/Core/LoadingElement.vue';
-import QuestionEditorComponent from '../components/editors/QuestionEditorComponent.vue';
+import QuestionEditorComponent from '../components/Editors/QuestionEditorComponent.vue';
 import MyButtonElement from '../components/Core/MyButtonElement.vue';
 import { v4 as uuidv4 } from "uuid";
 import { ref } from 'vue';
-import store from '../store';
+import store from '../store/store.js';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const emit = defineEmits(["change", "addQuestion", "deleteQuestion"]);
 
+// New survey
 let model = ref({
   title: "",
   slug: "",
@@ -182,6 +182,7 @@ let model = ref({
   questions: [],
 });
 
+// func when image is chosen then show it
 const onImageChoose = (ev) => {
   const file = ev.target.files[0];
 
@@ -196,9 +197,8 @@ const onImageChoose = (ev) => {
   reader.readAsDataURL(file);
 }
 
-const emit = defineEmits(["change", "addQuestion", "deleteQuestion"]);
-
-function saveSurvey() {
+// form save new survey
+const saveSurvey = () => {
   model.value.questions.forEach(question => {
     model.value.score = model.value.score + question.score
   });
@@ -216,7 +216,8 @@ function saveSurvey() {
   });
 }
 
-function addQuestion(index) {
+// create new question
+const addQuestion = (index) => {
   const newQuestion = {
     id: uuidv4(),
     type: "text",
@@ -228,9 +229,7 @@ function addQuestion(index) {
   model.value.questions.splice(index, 0, newQuestion);
 }
 
-function questionChange(question) {
-  // Important to explicitelly assign question.data.options, because otherwise it is a Proxy object
-  // and it is lost in JSON.stringify()
+const questionChange = (question) => {
   if (question.options) {
     question.options = [...question.options];
   }
@@ -242,12 +241,8 @@ function questionChange(question) {
   });
 }
 
-function deleteQuestion(question) {
+// delete question
+const deleteQuestion = (question) => {
   model.value.questions = model.value.questions.filter((q) => q !== question);
 }
-
 </script>
-
-
-<style scoped>
-</style>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SurveyCollection;
 use App\Models\User;
 use App\Models\Survey;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class AuthController extends Controller
 			'password' => [
 				'required',
 				'confirmed',
-				// Password::min(8)->mixedCase()->numbers()->symbols()
+				// Password::min(8)->mixedCase()->numbers()->symbols() // neskor odkomentovat
 				Password::min(4)
 			]
 		]);
@@ -78,6 +79,9 @@ class AuthController extends Controller
   }
 
 
+  /**
+   * Dashboard statistics numbers
+   */
   public function getDashboardNumbers(Request $request) {
     $user = Auth::user();
     $surveys = Survey::where('user_id', $user['id'])->get();
@@ -87,13 +91,18 @@ class AuthController extends Controller
     }
     $numOfSurveys = count($surveys);
     return response([
-      'followers' => $user['followers'],
-      'score' => $user['score'],
-      'numOfSurveys' => $numOfSurveys,
-      'numOfSubmitted' => $numOfSubmitted
+      'data' => [
+        'followers' => $user['followers'],
+        'score' => $user['score'],
+        'numOfSurveys' => $numOfSurveys,
+        'numOfSubmitted' => $numOfSubmitted
+      ]
     ]);
   }
 
+  /**
+   * Dashboard specific Suveys
+   */
   public function getDashboardSurveys(Request $request) {
     $user = Auth::user();
     $latestSurvey = Survey::where('user_id', $user['id'])->latest()->first();
@@ -101,10 +110,6 @@ class AuthController extends Controller
     // posledne odpovedany survey podla answer dateu
     $surveyWithBiggestScore = $latestSurvey; // docasne
     // zobrat survey s najvyssim score co user spravil
-    return response([
-      'latestSurvey' => $latestSurvey,
-      'latestAnswer' => $latestAnsweredSurvey,
-      'biggestScore' => $surveyWithBiggestScore
-    ]);
+    return new SurveyCollection([$latestSurvey, $latestAnsweredSurvey, $surveyWithBiggestScore]);
   }
 }

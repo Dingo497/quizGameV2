@@ -23,6 +23,8 @@ class SurveyResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'slug' => $this->slug,
+            'toEdit' => '{"name":"SurveyEdit","params":{"slug":"'.$this->slug.'"}}',
+            'toOpen' => '{"name":"SurveyView","params":{"slug":"'.$this->slug.'"}}',
             'score' => $this->score,
             'submitted' => $this->submitted,
             'image' => env('APP_URL') . '/' . $this->image,

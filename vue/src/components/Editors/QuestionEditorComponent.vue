@@ -5,24 +5,12 @@
       {{ props.index + 1 }}. {{ model.question }}
     </h3>
 
-
     <div class="flex items-center">
       <!-- Add new question -->
       <button
         type="button"
         @click="addQuestion()"
-        class="
-          flex
-          items-center
-          text-xs
-          py-1
-          px-3
-          mr-2
-          rounded-sm
-          text-white
-          bg-gray-600
-          hover:bg-gray-700
-        "
+        class="flex items-center text-xs py-1 px-3 mr-2 rounded-sm text-white bg-gray-600hover:bg-gray-700"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -44,17 +32,7 @@
       <button
         type="button"
         @click="deleteQuestion()"
-        class="
-          flex
-          items-center
-          text-xs
-          py-1
-          px-3
-          rounded-sm
-          border border-transparent
-          text-red-500
-          hover:border-red-600
-        "
+        class="flex items-center text-xs py-1 px-3 rounded-sm border border-transparent text-red-500 hover:border-red-600"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -88,16 +66,7 @@
         v-model="model.title"
         @change="dataChange"
         :id="'question_text_' + model.data"
-        class="
-          mt-1
-          focus:ring-indigo-500 focus:border-indigo-500
-          block
-          w-full
-          shadow-sm
-          sm:text-sm
-          border-gray-300
-          rounded-md
-        "
+        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
       />
     </div>
     <!--/ Question -->
@@ -112,19 +81,7 @@
         name="question_type"
         v-model="model.type"
         @change="typeChange"
-        class="
-          mt-1
-          block
-          w-full
-          py-2
-          px-3
-          border border-gray-300
-          bg-white
-          rounded-md
-          shadow-sm
-          focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
-          sm:text-sm
-        "
+        class="mt-1 block w-full py-2 px-3 border border-gray-300bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
       >
         <option v-for="type in questionTypes" :key="type" :value="type">
           {{ upperCaseFirst(type) }}
@@ -162,16 +119,7 @@
       v-model="model.description"
       @change="dataChange"
       :id="'question_description_' + model.id"
-      class="
-        mt-1
-        focus:ring-indigo-500 focus:border-indigo-500
-        block
-        w-full
-        shadow-sm
-        sm:text-sm
-        border-gray-300
-        rounded-md
-      "
+      class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
     />
   </div>
   <!--/ Question Description -->
@@ -186,17 +134,7 @@
         <button
           type="button"
           @click="addOption()"
-          class="
-            flex
-            items-center
-            text-xs
-            py-1
-            px-2
-            rounded-sm
-            text-white
-            bg-gray-600
-            hover:bg-gray-700
-          "
+          class="flex items-center text-xs py-1 px-2 rounded-sm text-white bg-gray-600 hover:bg-gray-700"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -233,31 +171,13 @@
           tabindex="1"
           v-model="option.text"
           @change="dataChange"
-          class="
-            w-full
-            rounded-sm
-            py-1
-            px-2
-            text-xs
-            border border-gray-300
-            focus:border-indigo-500
-          "
+          class="w-full rounded-sm py-1 px-2 text-xs border border-gray-300 focus:border-indigo-500"
         />
         <!-- Delete Option -->
         <button
           type="button"
           @click="removeOption(option)"
-          class="
-            h-8
-            w-8
-            rounded-full
-            flex
-            items-center
-            justify-center
-            border border-transparent
-            transition-colors
-            hover:border-red-200
-          "
+          class="h-8 w-8 rounded-full flex items-center justify-center border border-transparent transition-colors hover:border-red-200"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -279,18 +199,7 @@
           type="button"
           @click="selectCorrectAnswer(option, )"
           :id="`submit_button_${option.uuid}`"
-          class="
-            h-8
-            w-8
-            rounded-full
-            flex
-            items-center
-            justify-center
-            border border-transparent
-            transition-colors
-            hover:border-green-200
-            correct-answer
-          "
+          class="h-8 w-8 rounded-full flex items-center justify-center border border-transparent transition-colors hover:border-green-200 correct-answer"
         >
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
@@ -309,7 +218,6 @@
     </div>
   </div>
   <!--/ Data -->
-
   <hr class="my-4" />
 </template>
 
@@ -318,7 +226,7 @@
 import MyNumberInputElement from '../Core/MyNumberInputElement.vue';
 import { v4 as uuidv4 } from "uuid";
 import { computed, ref } from "@vue/reactivity";
-import store from "../../store";
+import store from "../../store/store.js";
 
 const props = defineProps({
   question: Object,
@@ -327,71 +235,58 @@ const props = defineProps({
 
 const emit = defineEmits(["change", "addQuestion", "deleteQuestion"]);
 
-// Re-create the whole question data to avoid unintentional reference change
+// Re-create the whole question data
 const model = ref(JSON.parse(JSON.stringify(props.question)));
 
 // Get question types from vuex
 const questionTypes = computed(() => store.state.questionTypes);
 
-function upperCaseFirst(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+const upperCaseFirst = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-function getOptions() {
-  return model.value.options;
-}
+const getOptions = () => model.value.options;
 
-function setOptions(options) {
-  model.value.options = options;
-}
+const setOptions = (options) => model.value.options = options;
 
 // Check if the question should have options
-function shouldHaveOptions() {
-  return ["select", "radio", "checkbox"].includes(model.value.type);
-}
+const shouldHaveOptions = () => ["select", "radio", "checkbox"].includes(model.value.type);
 
-function addOption() {
+const addOption = () => {
   setOptions([
     ...getOptions(),
     { uuid: uuidv4(), text: "", correctAnswer: false },
   ]);
   dataChange();
-}
+};
 
-function removeOption(op) {
+const removeOption = (op) => {
   setOptions(getOptions().filter((opt) => opt !== op));
   dataChange();
-}
+};
 
 // change type of question
-function typeChange() {
+const typeChange = () => {
   if (shouldHaveOptions()) {
     setOptions(getOptions() || []);
   }
   dataChange();
-}
+};
 
 // Emit the data change
-function dataChange() {
+const dataChange = () => {
   const data = model.value;
   if (!shouldHaveOptions()) {
     delete data.options;
   }
 
   emit("change", data);
-}
+};
 
-function addQuestion() {
-  emit("addQuestion", props.index + 1);
-}
+const addQuestion = () => emit("addQuestion", props.index + 1);
 
-function deleteQuestion() {
-  emit("deleteQuestion", props.question);
-}
-
+const deleteQuestion = () => emit("deleteQuestion", props.question);
 
 // select what answer(option) is correct
-function selectCorrectAnswer(option) {
+const selectCorrectAnswer = (option) => {
   const currentElement = document.getElementById(`submit_button_${option.uuid}`);
   const typeValue = document.getElementById(`question_type_${props.index}`).value;
   if(option.correctAnswer === false) {
@@ -404,12 +299,11 @@ function selectCorrectAnswer(option) {
     disableOtherOptions(currentElement, typeValue, true);
   }
   dataChange();
-}
-
+};
 
 // INTERN FUNCTION 
 // disable other options (correct answer buttons) if type of question is radio|select
-function disableOtherOptions(el, type, reset) {
+const disableOtherOptions = (el, type, reset) => {
   const element = el.parentElement.parentElement
   if(type === 'select' || type === 'radio') {
     let options = element.querySelectorAll('.option .correct-answer:not(.bg-green-200)')
@@ -418,8 +312,5 @@ function disableOtherOptions(el, type, reset) {
       else el.disabled = true;
     });
   }
-}
+};
 </script>
-
-
-<style></style>

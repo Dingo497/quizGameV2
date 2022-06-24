@@ -37,6 +37,7 @@ export default {
 
 <style scoped>
 .preloader {
+  top: 20px;
   position: relative;
   width: 125px;
   height: 125px;

@@ -1,14 +1,14 @@
 <template>
 <div>
   <div>
-    <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
+    <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Logo" />
     <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign up to your account - REGISTER</h2>
     <p class="mt-2 text-center text-sm text-gray-600">
       Or
       <router-link :to="{name: 'Login'}" class="font-medium text-indigo-600 hover:text-indigo-500">Login now</router-link>
     </p>
   </div>
-  <form class="mt-8 space-y-6" @submit="register">
+  <form class="mt-8 space-y-6" @submit.prevent="register">
     <input type="hidden" name="remember" value="true" />
     <div class="rounded-md shadow-sm -space-y-px">
       <div>
@@ -29,17 +29,6 @@
       </div>
     </div>
 
-    <div class="flex items-center justify-between">
-      <div class="flex items-center">
-        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
-        <label for="remember-me" class="ml-2 block text-sm text-gray-900"> Remember me </label>
-      </div>
-
-      <div class="text-sm">
-        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> Forgot your password? </a>
-      </div>
-    </div>
-
     <div>
       <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -55,7 +44,7 @@
 
 <script setup>
 import { LockClosedIcon } from '@heroicons/vue/solid';
-import store from '../store';
+import store from '../store/store.js';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -67,18 +56,11 @@ const user = {
   password_confirmation: ''
 };
 
-const register = (ev) => {
-  ev.preventDefault();
-  store
-    .dispatch('register', user)
+const register = () => {
+  store.dispatch('register', user)
     .then((response) => {
       console.log(store.state.user);
       router.push({ name: 'Dashboard' });
     });
 };
 </script>
-
-
-<style scoped>
-
-</style>

@@ -18,7 +18,3 @@ const props = defineProps({
   count: Number
 });
 </script>
-
-
-<style scoped>
-</style>

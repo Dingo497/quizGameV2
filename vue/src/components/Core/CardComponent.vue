@@ -1,8 +1,8 @@
 <template>
   <div class="flex justify-center m-2">
     <div class="rounded-lg shadow-lg bg-white max-w-sm">
-      <router-link :to="{ name: data.toOpen }">
-        <img class="rounded-t-lg" src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" alt=""/>
+      <router-link v-if="data.image" :to="data.toOpen || ''">
+        <img v-if="data.image" class="rounded-t-lg" :src="data.image" alt=""/>
       </router-link>
       <div class="p-6">
         <h5 class="text-gray-900 text-xl font-medium mb-2">{{ data.title }}</h5>
@@ -45,9 +45,4 @@ import MyButtonElement from './MyButtonElement.vue';
 const props = defineProps({
   data: Object
 });
-
 </script>
-
-
-<style scoped>
-</style>

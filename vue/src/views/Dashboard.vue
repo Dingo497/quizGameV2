@@ -2,7 +2,7 @@
   <div>
     <HeaderComponent title="">
       <LoadingElement v-if="store.state.loading"/>
-      <div v-if="!store.state.loading" class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4">
+      <div v-if="countCardData" class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4">
         <CountCardComponent title="Num of your Surveys" :count="countCardData.numOfSurveys" />
         <CountCardComponent title="Num of completed surveys" :count="countCardData.numOfSubmitted" />
         <CountCardComponent title="Num of your Followers" :count="countCardData.followers" />
@@ -11,10 +11,8 @@
     </HeaderComponent>
     <ContentComponent>
       <LoadingElement v-if="store.state.loading"/>
-      <div v-if="!store.state.loading" class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-        <CardComponent :data="latestSurvey"></CardComponent>
-        <CardComponent :data="latestAnswer"></CardComponent>
-        <CardComponent :data="biggestScore"></CardComponent>
+      <div v-if="cardData" class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+        <CardComponent v-for="card in cardData" :key="card.id" :data="card"></CardComponent>
       </div>
     </ContentComponent>
   </div>
@@ -27,34 +25,12 @@ import HeaderComponent from '../components/PageLayout/HeaderComponent.vue';
 import ContentComponent from '../components/PageLayout/ContentComponent.vue';
 import CardComponent from '../components/Core/CardComponent.vue';
 import LoadingElement from '../components/Core/LoadingElement.vue';
-import { ref, onMounted } from 'vue';
-import store from '../store';
+import { computed } from 'vue';
+import store from '../store/store.js';
 
-let countCardData = ref({});
-let latestSurvey = ref({});
-let latestAnswer = ref({});
-let biggestScore = ref({});
+store.dispatch('getDashboardSurveys');
+const cardData = computed(() => store.state.dashboardSurveys);
 
-onMounted(() => {
-  store.dispatch('getDashboardNumbers')
-    .then((response) => {
-      countCardData.value = response;
-  }); 
-  store.dispatch('getDashboardSurveys')
-    .then((response) => {
-      latestSurvey.value = response.latestSurvey;
-      latestSurvey.value.toEdit = 'Dashboard'; // docasne
-      latestSurvey.value.toOpen = 'Dashboard'; // docasne
-
-      latestAnswer.value = response.latestAnswer;
-      latestAnswer.value.toOpen = 'Dashboard'; // docasne
-      
-      biggestScore.value = response.biggestScore;
-      biggestScore.value.toOpen = 'Dashboard'; // docasne
-  });
-})
+store.dispatch('getDashboardNumbers');
+const countCardData = computed(() => store.state.dashboardNumbers);
 </script>
-
-
-<style scoped>
-</style>

@@ -48,7 +48,7 @@ import LoadingElement from '../components/Core/LoadingElement.vue';
 import QuestionSubmission from '../components/Submissions/QuestionSubmissions.vue';
 import MyButtonElement from '../components/Core/MyButtonElement.vue';
 import { ref, computed } from 'vue';
-import store from '../store';
+import store from '../store/store.js';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();

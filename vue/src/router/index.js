@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import store from "../store";
+import store from "../store/store.js";
 
 // VIEWS
 import Register from "../views/Register.vue";
@@ -25,6 +25,8 @@ const routes = [
       { path: '/surveys', name: 'Surveys', component: Surveys },
       { path: '/surveys/create', name: 'CreateSurvey', component: CreateEditSurvey },
       { path: '/surveys/:slug', name: 'SurveyView', component: SurveyView },
+      // zatial edit nefunkcny je to en zatial
+      { path: '/surveys/edit/:slug', name: 'SurveyEdit', component: SurveyView },
     ]
   },
   {

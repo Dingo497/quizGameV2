@@ -51,7 +51,6 @@ const decrease = () => {
   }
 };
 
-const updateNumber = (ev) => {
-  emits("update:modelValue", parseInt(ev.target.value));
-}
+const updateNumber = (ev) => emits("update:modelValue", parseInt(ev.target.value));
+
 </script>
